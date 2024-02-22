@@ -1,7 +1,7 @@
 `use strict`;
 
 import { input, fetchOn } from './js/pixabay-api';
-import { render } from './js/render-functions';
+import { render, imgList } from './js/render-functions';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 // /iziToast
@@ -12,11 +12,14 @@ export const loader = document.querySelector('.loader');
 
 export let page = 1;
 export let limit = 15;
+let posts;
+
 const totalPages = Math.ceil(100 / limit);
 
 form.addEventListener(`submit`, formSearch);
 
 async function formSearch(event) {
+  page = 1;
   const inputTrim = input.value.trim();
   if (inputTrim === ``) {
     event.preventDefault();
@@ -24,9 +27,10 @@ async function formSearch(event) {
     return;
   }
   event.preventDefault();
+  clearImgList();
 
   try {
-    const posts = await fetchOn();
+    posts = await fetchOn();
     render(posts);
     loader.classList.remove('hidden');
     btnLoad.classList.remove('hidden');
@@ -42,17 +46,22 @@ async function formSearch(event) {
     setTimeout(() => {
       loader.classList.add('hidden');
     }, 1200);
+
+    return;
   } catch (error) {
     console.log(error);
   }
-
-  form.reset();
 }
 
 btnLoad.addEventListener(`click`, loadMore);
 
-async function loadMore() {
+async function loadMore(event) {
+  event.preventDefault();
   page += 1;
+
+  posts = await fetchOn();
+  render(posts);
+
   if (page > totalPages) {
     iziToast.error({
       position: 'topRight',
@@ -61,6 +70,9 @@ async function loadMore() {
     btnLoad.classList.add('hidden');
     return;
   }
-  await fetchOn();
-  render(posts);
+  return;
+}
+
+function clearImgList() {
+  imgList.innerHTML = '';
 }
