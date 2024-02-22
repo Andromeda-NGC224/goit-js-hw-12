@@ -7,14 +7,13 @@ import 'izitoast/dist/css/iziToast.min.css';
 // /iziToast
 
 const form = document.querySelector(`.form`);
+const imgCard = document.querySelector(`.list-item`);
 export const btnLoad = document.querySelector(`.btn-load`);
 export const loader = document.querySelector('.loader');
 
 export let page = 1;
 export let limit = 15;
 let posts;
-
-const totalPages = Math.ceil(100 / limit);
 
 form.addEventListener(`submit`, formSearch);
 
@@ -62,12 +61,15 @@ async function loadMore(event) {
   posts = await fetchOn();
   render(posts);
 
-  if (page > totalPages) {
+  ScrollBy(820);
+
+  if (posts.hits.length === 0) {
+    btnLoad.classList.add('hidden');
     iziToast.error({
       position: 'topRight',
       message: "We're sorry, but you've reached the end of search results.",
     });
-    btnLoad.classList.add('hidden');
+
     return;
   }
   return;
@@ -75,4 +77,12 @@ async function loadMore(event) {
 
 function clearImgList() {
   imgList.innerHTML = '';
+}
+
+function ScrollBy(distance) {
+  window.scrollBy({
+    top: distance,
+    left: 0,
+    behavior: 'smooth',
+  });
 }

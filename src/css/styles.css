@@ -58,10 +58,11 @@ section {
 }
 
 .btn-load {
+  margin-top: 32px;
   border-radius: 8px;
   padding: 8px 16px;
-  width: 91px;
-  height: 42px;
+  width: 125px;
+  height: 40px;
   background: #4e75ff;
   border-style: none;
   color: #fff;
