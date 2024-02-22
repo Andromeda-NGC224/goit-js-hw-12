@@ -1,12 +1,11 @@
 `use strict`;
-import { imgList } from './render-functions';
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
-// /iziToast
+import { imgList } from './render-functions.js';
+import { page, limit } from '../main.js';
+import axios from 'axios';
 
 export const input = document.querySelector(`.input`);
 
-export function fetchOn() {
+export async function fetchOn() {
   let correctInput = input.value.split(' ').join('+');
 
   const searchParams = new URLSearchParams({
@@ -14,14 +13,13 @@ export function fetchOn() {
     q: correctInput,
     image_type: `photo`,
     orientation: `horizontal`,
-    safesearch: `true`,
+    per_page: limit,
+    page: page,
   });
 
   imgList.innerHTML = '';
-  return fetch(`https://pixabay.com/api/?${searchParams}`).then(response => {
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-    return response.json();
-  });
+
+  const response = await axios.get(`https://pixabay.com/api/?${searchParams}`);
+
+  return response.data;
 }

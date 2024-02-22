@@ -24,6 +24,10 @@
   -webkit-text-size-adjust: 100%;
 }
 
+.hidden {
+  display: none;
+}
+
 section {
   width: 1440px;
   margin: 0 auto;
@@ -51,6 +55,21 @@ section {
 
 .btn:hover {
   background: #ff7070;
+}
+
+.btn-load {
+  border-radius: 8px;
+  padding: 8px 16px;
+  width: 91px;
+  height: 42px;
+  background: #4e75ff;
+  border-style: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-load:hover {
+  background: #6c8cff;
 }
 
 .input {
@@ -163,8 +182,4 @@ section {
   100% {
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
   }
-}
-
-.loader.hidden {
-  display: none;
 }
